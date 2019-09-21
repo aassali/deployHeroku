@@ -10,6 +10,7 @@
     <p>L'email est <%= user.email %></p>
     <% if (user.firstname) { %>
       <p>Le nom est <%= user.firstname %> <%= user.lastname %></p>
+      <a href="/users/UpdateOnebyId:">edit</a>
     <% } %>
   </body>
 </html>

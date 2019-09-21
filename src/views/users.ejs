@@ -8,7 +8,7 @@
     <a href="/users/create">Create a user</a>
     <ul>
       <% users.forEach(function(user){ %>
-        <li><%= user.email %></li>
+        <li><%= user.email %></li> <a href="/users/#">Edit</a>
       <% }) %>
     </ul>
   </body>

@@ -49,7 +49,7 @@ router.get('/users/update', (req, res, next) => {
   res.render('updateUser');
 });
 
-router.post('/users/update', (req, res, next) => {
+router.post('/users/updated', (req, res, next) => {
   const userToUpdate = req.body;
 
   updateOneById(userToUpdate)

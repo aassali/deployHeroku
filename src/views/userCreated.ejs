@@ -8,9 +8,9 @@
     <h1>User created</h1>
     <a href="/users">Back to users</a>
     <p>L'email est <%= user.email %></p>
+    <a href="/users/UpdateOnebyId:">Edit</a>
     <% if (user.firstname) { %>
       <p>Le nom est <%= user.firstname %> <%= user.lastname %></p>
-      <a href="/users/UpdateOnebyId:">edit</a>
     <% } %>
   </body>
 </html>

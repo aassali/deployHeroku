@@ -53,7 +53,7 @@ router.get('/users/update', (req, res, next) => {
 router.post('/users/updated', (req, res, next) => {
   const userToUpdate = req.body;
 
-  userUpdateOneById(userToUpdate)
+  userUpdateOneById("5d862a8c846d1d0017e2766e",userToUpdate)
     .then((user) => {
       res.render('userUpdated', { user });
     })

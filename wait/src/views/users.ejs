@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <a href="/users/create">Create a user</a>
+    <ul>
+      <% users.forEach(function(user){ %>
+        <li><%= user.email %></li>
+      <% }) %>
+    </ul>
+  </body>
+</html>

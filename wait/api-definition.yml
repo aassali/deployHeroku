@@ -1,0 +1,390 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Todo list manager"
+host: "localhost:3000"
+basePath: "/api"
+schemes:
+- http
+tags:
+- name: Lists
+- name: List Tasks
+- name: Users
+paths:
+  "/lists":
+    post:
+      tags:
+      - Lists
+      parameters:
+      - name: list
+        in: body
+        schema:
+          $ref: '#/definitions/ListCreation'
+      summary: "Create a list"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/List'
+    get:
+      parameters:
+      - name: first
+        type: number
+        in: query
+      - name: offset
+        type: number
+        in: query
+      - name: term
+        type: string
+        in: query
+      tags:
+      - Lists
+      summary: "Find lists"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/List'
+
+
+  "/lists/{listId}":
+    parameters:
+      - name: listId
+        in: path
+        type: string
+        required: true
+      - name: list
+        in: body
+        schema:
+          $ref: '#/definitions/ListUpdate'
+    get:
+      tags:
+      - Lists
+      summary: "Find a list by ID"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/List'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFound'
+    patch:
+      tags:
+      - Lists
+      summary: "Update an list by ID"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/List'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFound'
+    delete:
+      tags:
+      - Lists
+      summary: "Delete a list by ID"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - ok
+                - ko
+              deletedId:
+                type: string
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFound'
+
+  "/lists/{listId}/tasks":
+    parameters:
+    - name: listId
+      in: path
+      type: string
+      required: true
+    get:
+      parameters:
+      - name: first
+        type: number
+        in: query
+      - name: offset
+        type: number
+        in: query
+      - name: term
+        type: string
+        in: query
+      tags:
+      - List Tasks
+      summary: "Find tasks for a list"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFound'
+    post:
+      tags:
+      - List Tasks
+      parameters:
+      - name: task
+        in: body
+        schema:
+          $ref: '#/definitions/TaskCreation'
+      summary: "Create a task in a list"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Task'
+
+  "/lists/{listId}/tasks/{taskId}":
+    parameters:
+      - name: listId
+        in: path
+        type: string
+        required: true
+      - name: taskId
+        in: path
+        type: string
+        required: true
+    get:
+      tags:
+      - List Tasks
+      summary: "Find a task by ID"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Task'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFound'
+    patch:
+      tags:
+      - List Tasks
+      parameters:
+      - name: list
+        in: body
+        schema:
+          $ref: '#/definitions/TaskUpdate'
+      summary: "Update an task by ID"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Task'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFound'
+    delete:
+      tags:
+      - List Tasks
+      summary: "Delete a task by ID"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - ok
+                - ko
+              deletedId:
+                type: string
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFound'
+  "/users":
+    post:
+      parameters:
+      - name: user
+        in: body
+        schema:
+          $ref: '#/definitions/UserCreation'
+      tags:
+      - Users
+      summary: "Create a user"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+    get:
+      tags:
+      - Users
+      parameters:
+      - name: first
+        type: number
+        in: query
+      - name: offset
+        type: number
+        in: query
+      summary: "Find users"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+
+  "/users/{userId}":
+    parameters:
+    - name: userId
+      in: path
+      type: string
+      required: true
+    - name: user
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/UserUpdate'
+    get:
+      tags:
+      - Users
+      summary: "Find a user by ID"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+    delete:
+      tags:
+      - Users
+      summary: "Delete a user by ID"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+    patch:
+      tags:
+      - Users
+      summary: "Update a user by ID"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+
+definitions:
+  List:
+    type: object
+    properties:
+      "_id":
+        type: number
+      name:
+        type: string
+      description:
+        type: string
+      userId:
+        type: string
+  ListCreation:
+    type: object
+    required:
+    - name
+    - description
+    - userId
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      userId:
+        type: string
+  ListUpdate:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+  Task:
+    type: object
+    properties:
+      "_id":
+        type: string
+      name:
+        type: string
+      checked:
+        type: boolean
+        default: false
+  TaskCreation:
+    type: object
+    properties:
+      name:
+        type: string
+  TaskUpdate:
+    type: object
+    properties:
+      name:
+        type: string
+      checked:
+        type: boolean
+  User:
+    type: object
+    properties:
+      "_id":
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      email:
+        type: string
+        format: email
+  UserCreation:
+    type: object
+    required:
+    - password
+    - email
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      password:
+        type: string
+      email:
+        type: string
+        format: email
+  UserUpdate:
+    type: object
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      password:
+        type: string
+      email:
+        type: string
+        format: email
+  NotFound:
+    type: object
+    properties:
+      message:
+        type: string
+      status:
+        type: number

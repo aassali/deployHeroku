@@ -45,4 +45,19 @@ router.get('/users/:userId', (req, res, next) => {
     });
 });
 
+router.get('/users/update', (req, res, next) => {
+  res.render('updateUser');
+});
+
+router.post('/users/update', (req, res, next) => {
+  const userToUpdate = req.body;
+
+  updateOneById(userToUpdate)
+    .then((user) => {
+      res.render('userUpdated', { user });
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
 module.exports = router;

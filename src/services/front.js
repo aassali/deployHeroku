@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const userFindOneById = require('../modules/users/services/findOneById');
 const userCreateOne = require('../modules/users/services/createOne');
+const userUpdateOneById = require('../modules/users/services/UpdateOneById');
 const userFind = require('../modules/users/services/find');
 
 const router = new Router();
@@ -52,7 +53,7 @@ router.get('/users/update', (req, res, next) => {
 router.post('/users/updated', (req, res, next) => {
   const userToUpdate = req.body;
 
-  updateOneById(userToUpdate)
+  userUpdateOneById(userToUpdate)
     .then((user) => {
       res.render('userUpdated', { user });
     })

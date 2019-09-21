@@ -8,7 +8,10 @@
     <a href="/users/create">Create a user</a>
     <ul>
       <% users.forEach(function(user){ %>
-        <li><%= user.email %></li> <a href="/users/update">Edit</a>
+        <form action="/users/:userId" method="patch" enctype="application/json">
+          <li>test<%= user.email %></li>
+          <button type="submit">Edit</button>
+         </form>
       <% }) %>
     </ul>
   </body>
